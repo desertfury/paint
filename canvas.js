@@ -9,10 +9,10 @@ window.addEventListener("load", (ev) => {
     let points = [];
 
     const startPainting = (ev) => {
+        console.log(ev);
         painting = true;
         points.push([]);
         ctx.beginPath();
-        ctx.moveTo(ev.clientX, ev.clientY);
         draw(ev);
     };
     const endPainting = () => {
@@ -40,10 +40,13 @@ window.addEventListener("load", (ev) => {
         }
     }
 
-    canvas.addEventListener("mousedown", startPainting);
+    canvas.addEventListener("mousedown", (ev) => {
+        if (ev.button === 0) {
+            startPainting(ev);
+        } else if (ev.button === 2) {
+            undo();
+        }
+    });
     canvas.addEventListener("mouseup", endPainting);
     canvas.addEventListener("mousemove", draw);
-    canvas.addEventListener('keydown',(e) => {
-        undo();
-    });
 });
